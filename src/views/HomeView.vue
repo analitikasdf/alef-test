@@ -4,18 +4,18 @@
 		<div class="personalData">
 			<h2 class="TitleForm">Персональные данные</h2>
 			<div class="inputWrapp">
-				<input v-model="storeData.parentName" type="text" />
+				<input v-model="store.parentName" type="text" />
 				<span class="placeholder">Имя</span>
 			</div>
 			<div class="inputWrapp">
-				<input v-model="storeData.parentAge" type="number" />
+				<input v-model="store.parentAge" type="number" />
 				<span class="placeholder">Возраст</span>
 			</div>
 		</div>
 		<div class="addChildren">
 			<div class="addChildrenHeader">
 				<h2 class="TitleForm TitleFormChildren">Дети (макс. 5)</h2>
-				<button v-if="buttonVisible" @click="addChildren" class="buttonAddChildren">Добавить ребенка</button>
+				<button v-if="store.buttonVisible" @click="addChildren" class="buttonAddChildren">Добавить ребенка</button>
 			</div>
 			<ChildrensList />
 		</div>
@@ -26,22 +26,12 @@
 <script setup>
 import ChildrensList from '../components/ChildrensList.vue'
 import { useStore } from '@/stores/form'
-import { reactive, computed } from 'vue'
 
 const store = useStore()
-const state = reactive({ perentName: '', perentAge: null })
 
 const addChildren = () => {
 	store.addChildren()
 }
-
-const buttonVisible = computed(() => {
-	return store.buttonVisible
-})
-
-const storeData = computed(() => {
-	return store
-})
 </script>
 
 <style lang="scss" scoped>

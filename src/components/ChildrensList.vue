@@ -1,28 +1,31 @@
 
 <template>
-	<div v-for="item in Object.keys(list)" :key="item" class="addChildrenList">
+	<div v-for="item in Object.keys(childrens)" :key="item" class="addChildrenList">
 		<div class="addChildrenListItem">
 			<div class="inputWrapp">
-				<input v-model="list[item].name" type="text" />
+				<input v-model="childrens[item].name" type="text" />
 				<span class="placeholder">Имя</span>
 			</div>
 			<div class="inputWrapp">
-				<input v-model="list[item].age" type="number" />
+				<input v-model="childrens[item].age" type="number" />
 				<span class="placeholder">Возраст</span>
 			</div>
 			<button @click="removeChildren(item)" class="buttonDelete">Удалить</button>
 		</div>
 	</div>
+	<!-- <pre>{{ childrens }}</pre> -->
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia'
 import { useStore } from '@/stores/form'
 import { reactive, computed } from 'vue'
 
 const store = useStore()
-const list = computed(() => {
-	return store.childrens
-})
+const { childrens } = storeToRefs(store)
+// const list = computed(() => {
+// 	return store.childrens
+// })
 const removeChildren = id => {
 	store.removeChildren(id)
 }

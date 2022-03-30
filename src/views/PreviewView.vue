@@ -2,7 +2,7 @@
 	<div class="page">
 		<h2 class="TitleForm">Персональные данные</h2>
 		<div v-if="parentAge != null" class="ParentData">{{ parentName }}, {{ agetostr(parentAge) }}</div>
-		<h2 class="TitleForm listChildren">Дети</h2>
+		<h2 v-if="store.childrens.length > 0" class="TitleForm listChildren">Дети</h2>
 		<div v-for="(item, id) in list" :key="id" class="">
 			<div class="children">{{ item.name }}, {{ agetostr(item.age) }}</div>
 		</div>

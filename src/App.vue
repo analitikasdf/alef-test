@@ -1,5 +1,8 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useStore } from '@/stores/form'
+
+const store = useStore()
 </script>
 
 <template>
@@ -7,7 +10,7 @@ import { RouterLink, RouterView } from 'vue-router'
 		<img src="@/assets/Logo_imi_horizontal.png" alt="Logo" />
 		<nav>
 			<RouterLink to="/">Форма</RouterLink>
-			<RouterLink to="/preview">Превью</RouterLink>
+			<RouterLink v-show="store.parentName && store.parentAge" to="/preview">Превью</RouterLink>
 		</nav>
 	</header>
 	<RouterView />

@@ -17,13 +17,10 @@
 			</div>
 		</div>
 		<div class="addChildren">
-			<div class="addChildrenHeader">
-				<h2 class="TitleForm TitleFormChildren">Дети (макс. 5)</h2>
-				<button v-if="store.buttonVisible" @click="addChildren" class="buttonAddChildren">Добавить ребенка</button>
-			</div>
 			<ChildrensList />
 		</div>
 		<button @click="submitForm" class="buttonSave" :class="{ disabled: v$.$error || !v$.$dirty }">Сохранить</button>
+		<div v-if="errorAll">Проверте правильность запрлнения полей</div>
 	</div>
 </template>
 
@@ -40,12 +37,11 @@ onMounted(() => {
 })
 
 const store = useStore()
-const addChildren = () => {
-	store.addChildren()
-}
 
 const name = ref('')
 const age = ref('')
+const errorAll = ref(false)
+
 const requiredNameLength = ref(3)
 const maxAgeValue = ref(99)
 const rules = computed(() => ({
@@ -64,12 +60,13 @@ const v$ = useVuelidate(rules, { name, age }, { $lazy: true, $autoDirty: true })
 const setParent = () => {
 	store.parentName = name.value
 	store.parentAge = age.value
+	errorAll.value = false
 }
 
 const submitForm = async () => {
 	const isFormCorrect = await v$.value.$validate()
 	// console.log(isFormCorrect, 'isFormCorrect')
-	isFormCorrect ? setParent() : null
+	isFormCorrect ? setParent() : (errorAll.value = true)
 }
 </script>
 
@@ -78,49 +75,6 @@ const submitForm = async () => {
 	margin-bottom: 20px;
 }
 
-.TitleFormChildren {
-	margin: 0;
-}
-
-.addChildrenHeader {
-	min-height: 40px;
-	margin-bottom: 10px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.buttonAddChildren {
-	padding: 10px 20px 10px 48px;
-	border: 2px solid #01a7fd;
-	box-sizing: border-box;
-	border-radius: 100px;
-	background-color: #fff;
-	font-size: 14px;
-	color: #01a7fd;
-	cursor: pointer;
-	position: relative;
-	&::before {
-		display: block;
-		position: absolute;
-		content: '';
-		width: 16px;
-		height: 2px;
-		background-color: #01a7fd;
-		left: 20px;
-		top: 17px;
-	}
-	&::after {
-		display: block;
-		position: absolute;
-		content: '';
-		width: 2px;
-		height: 16px;
-		background-color: #01a7fd;
-		left: 27px;
-		top: 10px;
-	}
-}
 .buttonSave {
 	margin-top: 20px;
 	padding: 10px 20px;

@@ -5,28 +5,18 @@ export const useStore = defineStore('form', {
 		return {
 			startId: 0,
 			parentName: '',
-			parentAge: null,
+			parentAge: '',
 			childrens: {}
 		}
 	},
-	actions: {
-		setPerentName(name) {
-			this.parentName = name
-		},
-		setPerentAge(age) {
-			this.parentAge = age
-		},
-		addChildren() {
-			if (Object.keys(this.childrens).length < 5) {
-				this.startId++
-				this.childrens = { ...this.childrens, [this.startId]: { name: '', age: null } }
-			}
-		},
-		removeChildren(id) {
-			console.log(this.childrens[id])
-			delete this.childrens[id]
-		}
-	},
+	// actions: {
+	// 	setPerentName(name) {
+	// 		this.parentName = name
+	// 	},
+	// 	setPerentAge(age) {
+	// 		this.parentAge = age
+	// 	}
+	// }
 	getters: {
 		buttonVisible: state => Object.keys(state.childrens).length < 5
 	}

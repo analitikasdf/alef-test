@@ -28,7 +28,7 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useStore } from '@/stores/form'
-import { reactive, computed, ref } from 'vue'
+import { reactive, computed, ref, onMounted } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { required, minLength, maxValue, helpers } from '@vuelidate/validators'
 
@@ -36,6 +36,9 @@ const store = useStore()
 const state = reactive({
 	startId: 0,
 	childrens: []
+})
+onMounted(() => {
+	state.childrens = store.childrens
 })
 
 // const removeChildren = id => {
@@ -48,7 +51,12 @@ const addChildren = () => {
 		state.childrens = [...state.childrens, { id: state.startId, name: '', age: '' }]
 	}
 }
-
+const setChildren = () => {
+	store.childrens = state.childrens
+}
+defineExpose({
+	setChildren
+})
 const removeChildren = id => {
 	state.childrens = state.childrens.filter(i => i.id !== id)
 }
@@ -58,9 +66,6 @@ const age = ref('')
 const requiredNameLength = ref(3)
 const maxAgeValue = ref(18)
 
-const collection = computed(() => {
-	return Object.values(store.childrens)
-})
 const rules = {
 	childrens: {
 		$each: helpers.forEach({

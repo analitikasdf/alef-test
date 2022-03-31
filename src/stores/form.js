@@ -6,7 +6,7 @@ export const useStore = defineStore('form', {
 			startId: 0,
 			parentName: '',
 			parentAge: '',
-			childrens: {}
+			childrens: []
 		}
 	},
 	// actions: {

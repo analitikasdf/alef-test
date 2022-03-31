@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="addChildren">
-			<ChildrensList />
+			<ChildrensList ref="listRef" />
 		</div>
 		<button @click="submitForm" class="buttonSave" :class="{ disabled: v$.$error || !v$.$dirty }">Сохранить</button>
 		<div v-if="errorAll">Проверте правильность запрлнения полей</div>
@@ -41,6 +41,7 @@ const store = useStore()
 const name = ref('')
 const age = ref('')
 const errorAll = ref(false)
+const listRef = ref(null)
 
 const requiredNameLength = ref(3)
 const maxAgeValue = ref(99)
@@ -57,16 +58,16 @@ const rules = computed(() => ({
 
 const v$ = useVuelidate(rules, { name, age }, { $lazy: true, $autoDirty: true })
 
-const setParent = () => {
-	store.parentName = name.value
-	store.parentAge = age.value
-	errorAll.value = false
-}
-
 const submitForm = async () => {
 	const isFormCorrect = await v$.value.$validate()
 	// console.log(isFormCorrect, 'isFormCorrect')
 	isFormCorrect ? setParent() : (errorAll.value = true)
+}
+const setParent = () => {
+	store.parentName = name.value
+	store.parentAge = age.value
+	errorAll.value = false
+	listRef.value.setChildren()
 }
 </script>
 
